@@ -8,7 +8,19 @@ Integrantes: [David Santiago Caraballo Candela](https://github.com/scaraballoc),
 
 En el presente repositorio se encuentran todos los documentos, bases de datos y códigos utilizados durante el desarrollo del Taller 2 de la clase *Big Data & Machine Learning for Applied Economics*, del profesor [Ignacio Sarmiento-Barbieri](https://ignaciomsarmiento.github.io/igaciomsarmiento) durante el segundo semestre del año 2022.
 
-Este trabajo tenía como objetivo el desarrollo de un modelo de predicción del ingreso de los ciudadanos de Bogotá D.C., Colombia, a partir del uso de una [base de datos](https://ignaciomsarmiento.github.io/GEIH2018_sample/) del 2018 de la Gran Encuesta Integrada de Hogares (GEIH) recolectada por el Departamento Administrativo Nacional de Estadistica (DANE). Tal insumo, con la intención de mejorar el proceso de identificación de fraude fiscal en personas que no reportan la totalidad de sus ingresos a las entidades gubernamentales.
+Este trabajo tenía como objetivo el desarrollo de dos (2) modelos; i) clasificación y ii) de predicción de ingreso para determinar el estatus de pobreza de los hogares de Bogotá D.C., Colombia, a partir del uso de una base de datos del 2018 de la Gran Encuesta Integrada de Hogares (GEIH) recolectada por el Departamento Administrativo Nacional de Estadistica (DANE). Tal insumo, con la intención de mejorar el proceso de identificación de hogares por debajo del umbral de pobreza. 
+
+Para organizar y *testear* las especifaciones de los modelos, (...)
+
+
+
+
+***Nota:*** *Este archivo debería correr a la perfección siempre y cuando se sigan las instrucciones y comentarios del código (en orden y forma). Es altamente recomendable que antes de verificar la replicabilidad del código, se asegure de tener **todos** los requerimientos informáticos previamente mencionados (i.e. se prefieren versiones de **Python** menores a la 3.10.9 para evitar que paquetes, funciones y métodos que han sido actualizados no funcionen). Además, la velocidad de ejecución dependerá de las características propias de su máquina, por lo que deberá (o no) tener paciencia mientras se procesa.*
+
+
+
+
+
 
 Para organizar y *testear* la especificacion optima del modelo predictivo, se comenzó estimando dos (2) modelos estructurales que buscaban identificar si las variables de edad y género eran determinantes a la hora de entender el comportamiento del ingreso laboral de los ciudadanos. Posteriormente, a partir de estas especificaciones se fueron agregando regresores y controles que pretendían aumentar el poder predictivo del modelo, y la especificación final que se escogió utilizando el proceso de *Leave-One-Out-Cross-Validation (LOOCV)*.
 
@@ -19,5 +31,3 @@ La totalidad de la base de datos fue obtenida mediante un proceso de *data-scrap
 **2. *Data cleaning & Modelling***
 
 Luego de realizar el *data-scraping* en **R**, migramos al lenguaje de programación **Python** para realizar la limpieza y organización de la base de datos, y la modelación y estimación de todas las especificaciones propuestas. Se tomó esta decisión dado que, por un lado, poseemos mayores conocimientos técnicos en **Python**, y, por otro lado, consideramos que es un programa con importantes ventajas absolutas en temas de versatilidad y eficiencia al momento de manejar grandes volúmenes de datos (en especial teniendo en cuenta que para este trabajo se utilizaron estimaciones de errores estándar con *bootstrap* y errores de predicción con validación cruzada). Para poder utilizar nuestro código de **Python**, es necesario tener instalados los paquetes de `pandas`, `numpy`, `pyreadr`, `sklearn`, `scipy`, `statsmodels`, `matplotlib`, `seaborn` y `bootstrap_stat`. El código completo, que incluye todo el proceso de limpieza de datos, extracción de estadísticas descriptivas y estimación de los diez (10) modelos utilizados para responder a las preguntas del *problem set* se encuentran en orden dentro del notebook de Jupyter titulado "PS1_BD.ipynb". El *Python script* asociado al notebook esta titulado como "T1Script.py".
-
-***Nota:*** *Este archivo debería correr a la perfección siempre y cuando se sigan las instrucciones y comentarios del código (en orden y forma). Es altamente recomendable que antes de verificar la replicabilidad del código, se asegure de tener **todos** los requerimientos informáticos previamente mencionados. Además, la velocidad de ejecución dependerá de las características propias de su máquina, por lo que deberá (o no) tener paciencia mientras se procesa.*
