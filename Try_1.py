@@ -77,44 +77,62 @@ ds=ds[["count", "mean", "std", "min", "50%", "max"]]
 ds=ds.round(2)
 print(ds.to_latex())
 
-#Revisar (deben quedar en terminos de hogares)
-df["Ingtotugarr_m"]=df["Ingtotugarr"]/1000000
-#Histogram of total household income:
-plt.hist(df["Ingtotugarr_m"], bins=450, color = (0.17, 0.44, 0.69, 0.9))
-plt.xlim(0,12)
+#Histogram  of household per_capita income:
+df_trh["Ingtotugarr_m"]=df_trh["Ingtotugarr"]/df_trh["Nper"]/1000000
+plt.hist(df_trh["Ingtotugarr_m"], bins=1000, color = (0.17, 0.44, 0.69, 0.9))
+plt.xlim(0,6)
 #plt.ylim(0,10000)
-plt.xticks([i for i in range(11)])
-plt.ylabel("Personas")
-plt.xlabel("COP millones (pesos)")
-plt.savefig("histy.jpg", bbox_inches="tight")
+plt.xticks([i for i in range(7)])
+plt.ylabel("N° hogares")
+plt.xlabel("COP millones (pesos colombianos)")
+plt.savefig("histy_ipch.jpg", bbox_inches="tight")
 plt.show()
 
-df["Ingtotugarrp_m"]=df["Ingtotugarrp"]/1000000
-#Histogram of average household income:
-plt.hist(df["Ingtotugarrp_m"], bins=450, color = (0.17, 0.44, 0.69, 0.9))
-plt.xlim(0,5)
+
+
+
+
+
+
+
+
+
+#Revisar 
+#df["Ingtotugarr_m"]=df["Ingtotugarr"]/1000000
+#Histogram of total household income:
+#plt.hist(df["Ingtotugarr_m"], bins=450, color = (0.17, 0.44, 0.69, 0.9))
+#plt.xlim(0,12)
 #plt.ylim(0,10000)
-plt.xticks([i for i in range(5)])
-plt.ylabel("Personas")
-plt.xlabel("COP millones (pesos)")
-plt.savefig("histy_avg.jpg", bbox_inches="tight")
-plt.show()
+#plt.xticks([i for i in range(11)])
+#plt.ylabel("Personas")
+#plt.xlabel("COP millones (pesos)")
+#plt.savefig("histy.jpg", bbox_inches="tight")
+#plt.show()
+
+#df["Ingtotugarrp_m"]=df["Ingtotugarrp"]/1000000
+#Histogram of average household income:
+#plt.hist(df["Ingtotugarrp_m"], bins=450, color = (0.17, 0.44, 0.69, 0.9))
+#plt.xlim(0,5)
+#plt.ylim(0,10000)
+#plt.xticks([i for i in range(5)])
+#plt.ylabel("Personas")
+#plt.xlabel("COP millones (pesos)")
+#plt.savefig("histy_avg.jpg", bbox_inches="tight")
+#plt.show()
 
 
 ###Split train and test using training database. 
 #Train sub test database using PSM to reproduce test 
 
-df_test["test"]=1
-df["test"]=0
-c=list(df_test.columns)
-df_2=df[c]
-df_tt=df_2.append(df_test, ignore_index=True)
-df_tt=df_tt.reset_index()
-df_tt["index"]=pd.to_numeric(df_tt["index"])
-df_tt["test"]=pd.to_numeric(df_tt["test"])
+#df_test["test"]=1
+#df["test"]=0
+#c=list(df_test.columns)
+#df_2=df[c]
+#df_tt=df_2.append(df_test, ignore_index=True)
+#df_tt=df_tt.reset_index()
+#df_tt["index"]=pd.to_numeric(df_tt["index"])
+#df_tt["test"]=pd.to_numeric(df_tt["test"])
 
-#Dummify City
-City=pd.get_dummies(df_test["P6210"], prefix="educ") 
 
 
 
