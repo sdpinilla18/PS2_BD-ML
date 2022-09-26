@@ -68,53 +68,78 @@ df["P6585s3"]=np.where(((df["P6585s3"]==9) & (df["P6585s3"]==2)), 0, 1) #Recode 
 df_test["P6020"]=np.where(df_test["P6020"]==1, 0, 1) #Recode sex, woman=1 
 df_test["P6585s3"]=np.where(((df_test["P6585s3"]==9) & (df_test["P6585s3"]==2)), 0, 1) #Recode sex, woman=1 
 
+#Train (Household) #####################
+df_trh["Ingtotugarr_m"]=df_trh["Ingtotugarr"]/df_trh["Nper"]
 
 #Generate descriptive statistics of train dataset
-ds=(df[["Ingtotugarr", "Ingtot", "P6040", "Nper", "Pobre", "P6020", "estrato_1.0", "estrato_2.0", "estrato_3.0", 
+ds1=(df[["Ingtot", "P6040", "Pobre", "P6020", "estrato_1.0", "estrato_2.0", "estrato_3.0", 
 "estrato_4.0", "estrato_5.0", "estrato_6.0", "educ_1.0", "educ_2.0", "educ_3.0", "educ_4.0", "educ_5.0", "educ_6.0", "P6585s3", "Oc"]].describe(include="all"))
-ds=ds.T
-ds=ds[["count", "mean", "std", "min", "50%", "max"]]
-ds=ds.round(2)
+ds1=ds1.T
+ds1=ds1[["count", "mean", "std", "min", "50%", "max"]]
+ds1=ds1.round(2)
+ds2=(df_trh[["Ingtotugarr_m","Nper"]].describe(include="all"))
+ds2=ds2.T
+ds2=ds2[["count", "mean", "std", "min", "50%", "max"]]
+ds2=ds2.round(2)
+ds=pd.concat([ds2, ds1])
 print(ds.to_latex())
 
-#Revisar (deben quedar en terminos de hogares)
-df["Ingtotugarr_m"]=df["Ingtotugarr"]/1000000
-#Histogram of total household income:
-plt.hist(df["Ingtotugarr_m"], bins=450, color = (0.17, 0.44, 0.69, 0.9))
-plt.xlim(0,12)
+#Histogram  of household per_capita income:
+df_trh["Ingtotugarr_mM"]=df_trh["Ingtotugarr"]/df_trh["Nper"]/1000000
+plt.hist(df_trh["Ingtotugarr_mM"], bins=1000, color = (0.17, 0.44, 0.69, 0.9))
+plt.xlim(0,6)
 #plt.ylim(0,10000)
-plt.xticks([i for i in range(11)])
-plt.ylabel("Personas")
-plt.xlabel("COP millones (pesos)")
-plt.savefig("histy.jpg", bbox_inches="tight")
+plt.xticks([i for i in range(7)])
+plt.ylabel("N° hogares")
+plt.xlabel("COP millones (pesos colombianos)")
+plt.savefig("histy_ipch.jpg", bbox_inches="tight")
 plt.show()
 
-df["Ingtotugarrp_m"]=df["Ingtotugarrp"]/1000000
-#Histogram of average household income:
-plt.hist(df["Ingtotugarrp_m"], bins=450, color = (0.17, 0.44, 0.69, 0.9))
-plt.xlim(0,5)
+df_trh["Ingtotugarr_mM"].describe()
+
+
+
+
+
+
+
+
+#Revisar 
+#df["Ingtotugarr_m"]=df["Ingtotugarr"]/1000000
+#Histogram of total household income:
+#plt.hist(df["Ingtotugarr_m"], bins=450, color = (0.17, 0.44, 0.69, 0.9))
+#plt.xlim(0,12)
 #plt.ylim(0,10000)
-plt.xticks([i for i in range(5)])
-plt.ylabel("Personas")
-plt.xlabel("COP millones (pesos)")
-plt.savefig("histy_avg.jpg", bbox_inches="tight")
-plt.show()
+#plt.xticks([i for i in range(11)])
+#plt.ylabel("Personas")
+#plt.xlabel("COP millones (pesos)")
+#plt.savefig("histy.jpg", bbox_inches="tight")
+#plt.show()
+
+#df["Ingtotugarrp_m"]=df["Ingtotugarrp"]/1000000
+#Histogram of average household income:
+#plt.hist(df["Ingtotugarrp_m"], bins=450, color = (0.17, 0.44, 0.69, 0.9))
+#plt.xlim(0,5)
+#plt.ylim(0,10000)
+#plt.xticks([i for i in range(5)])
+#plt.ylabel("Personas")
+#plt.xlabel("COP millones (pesos)")
+#plt.savefig("histy_avg.jpg", bbox_inches="tight")
+#plt.show()
 
 
 ###Split train and test using training database. 
 #Train sub test database using PSM to reproduce test 
 
-df_test["test"]=1
-df["test"]=0
-c=list(df_test.columns)
-df_2=df[c]
-df_tt=df_2.append(df_test, ignore_index=True)
-df_tt=df_tt.reset_index()
-df_tt["index"]=pd.to_numeric(df_tt["index"])
-df_tt["test"]=pd.to_numeric(df_tt["test"])
+#df_test["test"]=1
+#df["test"]=0
+#c=list(df_test.columns)
+#df_2=df[c]
+#df_tt=df_2.append(df_test, ignore_index=True)
+#df_tt=df_tt.reset_index()
+#df_tt["index"]=pd.to_numeric(df_tt["index"])
+#df_tt["test"]=pd.to_numeric(df_tt["test"])
 
-#Dummify City
-City=pd.get_dummies(df_test["P6210"], prefix="educ") 
 
 
 
