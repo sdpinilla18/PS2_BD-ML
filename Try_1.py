@@ -4,6 +4,7 @@ Spyder Editor
 
 This is a temporary script file.
 """
+#Packages:
 import pandas as pd
 import numpy as np
 import pyreadr as pyr
@@ -14,6 +15,10 @@ import os
 from psmpy import PsmPy
 from psmpy.functions import cohenD
 from psmpy.plotting import *
+from sklearn.linear_model import LogisticRegression
+import numpy as np
+from sklearn.impute import SimpleImputer
+from sklearn.impute import KNNImputer
 
 os.chdir("C:/Users/hp/OneDrive - Universidad de los Andes/Documentos/Docs/Universidad/2022-2/Big Data/Taller 2/Repo/PS2_BD-ML") #Working directory. 
 
@@ -26,8 +31,8 @@ df_trp=tr_p[None] #train Data frame (individuals).
 df_trh=tr_h[None] #Train Data frame (households). 
 
 df=pd.merge(df_trp, df_trh, on="id") #Train master data frame (merge by unique identificator key). 
-
-df.columns
+df.rename(columns={"Clase_x": "clase"})
+df.rename(columns={"Dominio_x": "Dominio"})
 
 #Test ############3
 te_p=pyr.read_r("test_personas.Rds") 
@@ -38,35 +43,96 @@ df_tep=te_p[None] #test Data frame (individuals).
 df_teh=te_h[None] #test Data frame (households). 
 
 df_test=pd.merge(df_tep, df_teh, on="id") #Train master data frame (merge by unique identificator key). 
+df_test.rename(columns={"Clase_x": "clase"})
+df_test.rename(columns={"Dominio_x": "Dominio"})
 
 #Missing values count/share in train.
 df.isnull().sum() 
 df.isnull().sum()/len(df) 
 
-#Train ######################################
+df_test.columns
+
+######################################Train #############################################################################
+
 #Convert categorical variables to dummy variables:
 estrato1_d=pd.get_dummies(df["Estrato1"], prefix="estrato") 
 maxeduc_d=pd.get_dummies(df["P6210"], prefix="educ") 
+dominio_d=pd.get_dummies(df["Dominio_x"], prefix="dominio")
+departamento_d=pd.get_dummies(df["Depto_x"], prefix="depto")
+salud_d=pd.get_dummies(df["P6100"], prefix="salud")
+trabajo_d=pd.get_dummies(df["P6430"], prefix="trabajo")
+actividad_d=pd.get_dummies(df["P6240"], prefix="act")
+numper_d=pd.get_dummies(df["P6870"], prefix="numper")
+ocseg_d=pd.get_dummies(df["P7050"], prefix="ocseg")
+trabdeso_d=pd.get_dummies(df["P7350"], prefix="trabdeso")
+tipovivienda_d=pd.get_dummies(df["P5090"], prefix="tipoviv")
+oficio_d=pd.get_dummies(df["Oficio"], prefix="oficio")
+
 
 #Merge dummy's variables data frame with master data frame:
 df=pd.merge(df, estrato1_d, left_index=True, right_index=True)
 df=pd.merge(df, maxeduc_d, left_index=True, right_index=True)
+df=pd.merge(df, dominio_d, left_index=True, right_index=True)
+df=pd.merge(df, departamento_d, left_index=True, right_index=True)
+df=pd.merge(df, trabajo_d, left_index=True, right_index=True)
+df=pd.merge(df, salud_d, left_index=True, right_index=True)
+df=pd.merge(df, actividad_d, left_index=True, right_index=True)
+df=pd.merge(df, numper_d, left_index=True, right_index=True)
+df=pd.merge(df, ocseg_d, left_index=True, right_index=True)
+df=pd.merge(df, trabdeso_d, left_index=True, right_index=True)
+df=pd.merge(df, tipovivienda_d, left_index=True, right_index=True)
+df=pd.merge(df, oficio_d, left_index=True, right_index=True)
 
-#Test ######################33
+##################Test ###############################################################################################
+
 maxeduc_d=pd.get_dummies(df_test["P6210"], prefix="educ") 
+dominio_d=pd.get_dummies(df_test["Dominio_x"], prefix="dominio")
+departamento_d=pd.get_dummies(df_test["Depto_x"], prefix="depto")
+salud_d=pd.get_dummies(df_test["P6100"], prefix="salud")
+trabajo_d=pd.get_dummies(df_test["P6430"], prefix="trabajo")
+actividad_d=pd.get_dummies(df_test["P6240"], prefix="act")
+numper_d=pd.get_dummies(df_test["P6870"], prefix="numper")
+ocseg_d=pd.get_dummies(df_test["P7050"], prefix="ocseg")
+trabdeso_d=pd.get_dummies(df_test["P7350"], prefix="trabdeso")
+tipovivienda_d=pd.get_dummies(df_test["P5090"], prefix="tipoviv")
+oficio_d=pd.get_dummies(df_test["Oficio"], prefix="oficio")
 
 #Merge dummy's variables data frame with master data frame:
-df_test=pd.merge(df_test, estrato1_d, left_index=True, right_index=True)
 df_test=pd.merge(df_test, maxeduc_d, left_index=True, right_index=True)
+df_test=pd.merge(df_test, dominio_d, left_index=True, right_index=True)
+df_test=pd.merge(df_test, departamento_d, left_index=True, right_index=True)
+df_test=pd.merge(df_test, salud_d, left_index=True, right_index=True)
+df_test=pd.merge(df_test, trabajo_d, left_index=True, right_index=True)
+df_test=pd.merge(df_test, actividad_d, left_index=True, right_index=True)
+df_test=pd.merge(df_test, numper_d, left_index=True, right_index=True)
+df_test=pd.merge(df_test, ocseg_d, left_index=True, right_index=True)
+df_test=pd.merge(df_test, trabdeso_d, left_index=True, right_index=True)
+df_test=pd.merge(df_test, tipovivienda_d, left_index=True, right_index=True)
+df_test=pd.merge(df_test, oficio_d, left_index=True, right_index=True)
 
-#Recode variables train ###########
-df["Ingtotugarrp"]=df["Ingtotugarr"]/df["Nper"] #Mean of household income. 
-df["P6020"]=np.where(df["P6020"]==1, 0, 1) #Recode sex, woman=1 
-df["P6585s3"]=np.where(((df["P6585s3"]==9) & (df["P6585s3"]==2)), 0, 1) #Recode sex, woman=1 
+#Recode variables of train ###########
+var=(["P6020", "P6090", "P6510", "P6545", "P6580", "P6585s1", "P6585s2", "P6585s3", "P6585s4", "P6590", "P6600", "P6610", "P6620"
+ ,"P6630s1", "P6630s2", "P6630s3", "P6630s4" ,"P6630s6" , "P6920","P7040","P7090","P7110","P7120","P7150", "P7160", "P7310",
+ "P7422", "P7472", "P7495", "P7500s2", "P7500s3","P7505", "P7510s1", "P7510s2","P7510s3", "P7510s5", "P7510s6", "P7510s7"])
 
-#Test ##################
-df_test["P6020"]=np.where(df_test["P6020"]==1, 0, 1) #Recode sex, woman=1 
-df_test["P6585s3"]=np.where(((df_test["P6585s3"]==9) & (df_test["P6585s3"]==2)), 0, 1) #Recode sex, woman=1 
+ceros=["Oc", "Des", "Ina"]
+
+
+for i in var:
+    df[i]=np.where(df[i]==9, np.nan, df[i])
+    df[i]=np.where(df[i]==1, 1, 0*df[i])
+
+##Replace Na=0 in Ocupados, Desocupados and Inactivos
+for i in ceros:
+    df[i]=np.where(df[i]==1, 1, 0)
+
+#Recode variables of test ###########
+for i in var:
+    df_test[i]=np.where(df_test[i]==9, np.nan, df_test[i])
+    df_test[i]=np.where(df_test[i]==1, 1, 0*df_test[i])
+
+for i in ceros:
+    df_test[i]=np.where(df_test[i]==1, 1, 0)
 
 #Train (Household) #####################
 df_trh["Ingtotugarr_m"]=df_trh["Ingtotugarr"]/df_trh["Nper"]
@@ -91,41 +157,12 @@ plt.xlim(0,6)
 #plt.ylim(0,10000)
 plt.xticks([i for i in range(7)])
 plt.ylabel("N° hogares")
-plt.xlabel("COP millones (pesos colombianos)")
+plt.xlabel("Millones COP")
 plt.savefig("histy_ipch.jpg", bbox_inches="tight")
 plt.show()
 
 df_trh["Ingtotugarr_mM"].describe()
 
-
-
-
-
-
-
-
-#Revisar 
-#df["Ingtotugarr_m"]=df["Ingtotugarr"]/1000000
-#Histogram of total household income:
-#plt.hist(df["Ingtotugarr_m"], bins=450, color = (0.17, 0.44, 0.69, 0.9))
-#plt.xlim(0,12)
-#plt.ylim(0,10000)
-#plt.xticks([i for i in range(11)])
-#plt.ylabel("Personas")
-#plt.xlabel("COP millones (pesos)")
-#plt.savefig("histy.jpg", bbox_inches="tight")
-#plt.show()
-
-#df["Ingtotugarrp_m"]=df["Ingtotugarrp"]/1000000
-#Histogram of average household income:
-#plt.hist(df["Ingtotugarrp_m"], bins=450, color = (0.17, 0.44, 0.69, 0.9))
-#plt.xlim(0,5)
-#plt.ylim(0,10000)
-#plt.xticks([i for i in range(5)])
-#plt.ylabel("Personas")
-#plt.xlabel("COP millones (pesos)")
-#plt.savefig("histy_avg.jpg", bbox_inches="tight")
-#plt.show()
 
 
 ###Split train and test using training database. 
