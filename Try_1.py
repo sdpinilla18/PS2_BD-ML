@@ -216,8 +216,23 @@ plt.show()
 
 len(X_train[X_train.si>=0.5])/len(X_train["Clase_x"])
 
+X_train=pd.merge(X_train,df[["Ingtotugarr", "Pobre", "id"]], left_index=True, right_index=True) 
 
+#Split X train based on psm score
+X_ttest=X_train[X_train["si"]>=0.5]
+X_train2=X_train[X_train["si"]<0.5]
 
+dependientes=["Ingtotugarr", "Pobre", "Lp", "id"]
+var1=[i for i in X_ttest.columns if i not in dependientes]
+var2=[i for i in X_train2.columns if i not in dependientes]
+
+###Create dependent variables
+y_ttest=X_ttest[dependientes]
+y_train2=X_train2[dependientes]
+
+##
+X_ttest=X_ttest[var1]
+X_train2=X_train2[var2]
 
 
 
