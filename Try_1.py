@@ -163,19 +163,70 @@ plt.show()
 
 df_trh["Ingtotugarr_mM"].describe()
 
-
-
 ###Split train and test using training database. 
 #Train sub test database using PSM to reproduce test 
 
-#df_test["test"]=1
-#df["test"]=0
-#c=list(df_test.columns)
-#df_2=df[c]
-#df_tt=df_2.append(df_test, ignore_index=True)
-#df_tt=df_tt.reset_index()
-#df_tt["index"]=pd.to_numeric(df_tt["index"])
-#df_tt["test"]=pd.to_numeric(df_tt["test"])
+elim=(["id", "Orden", "Fex_c_y", "Clase_y", "Dominio_y", "Depto_y", "Dominio_x", "Depto_x",  "Fex_dpto_y", "Fex_dpto_x", "Fex_c_x" , "Depto_x", 
+"P6050" , "P6210s1", "P6210s1" , "educ_1.0" , "dominio_ARMENIA" , "depto_05", "salud_1.0", "salud_9.0" , "trabajo_9.0", "act_1.0", 
+"numper_1.0", "ocseg_1.0", "trabdeso_1.0", "tipoviv_1.0", "oficio_1.0", "P6100", "P6210", "P6240" , "Oficio", "P6430", "P6870", "P7050", 
+"P7350" , "P5090"])
+
+df["test"]=0
+df_test["test"]=1
+c=[i for i in df_test.columns if i not in elim]
+
+
+####Dealing with nans
+imp_mean = SimpleImputer(missing_values=np.nan, strategy='most_frequent')
+x1=df_test[c]
+x1=imp_mean.fit_transform(x1)
+
+x2=df[c]
+x2=imp_mean.fit_transform(x2)
+
+#Create a X matrix of covariates
+x11=pd.DataFrame(x1, columns=c)
+x22=pd.DataFrame(x2, columns=c)
+X=x22.append(x11, ignore_index=True)
+
+#Create matrix Y
+Y=X["test"]
+Y=Y.astype('int')
+
+## Generate PSM of test
+lr = LogisticRegression(random_state=911, class_weight="balanced")
+result=lr.fit(X,Y)
+PSM=result.predict_proba(X)
+
+PSM=pd.DataFrame(PSM, columns=["no", "si"])
+PSM
+X=pd.merge(X,PSM, left_index=True, right_index=True) 
+
+grouped = X.groupby(X.test)
+X_train = grouped.get_group(0)
+X_test = grouped.get_group(1)
+
+plt.hist([X_test.si,X_train.si], bins=10, label=['test', 'train'], color=["r", "b"] )
+plt.legend(loc='upper right')
+plt.xticks([0,0.2,0.4,0.6,0.8,1])
+plt.ylabel("Frecuencia")
+plt.xlabel("Probabilidad de pertenecer a test")
+plt.savefig("histy_psm.jpg", bbox_inches="tight")
+plt.show()
+
+len(X_train[X_train.si>=0.5])/len(X_train["Clase_x"])
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
