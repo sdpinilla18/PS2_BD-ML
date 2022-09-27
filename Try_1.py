@@ -19,6 +19,9 @@ from sklearn.linear_model import LogisticRegression
 import numpy as np
 from sklearn.impute import SimpleImputer
 from sklearn.impute import KNNImputer
+from sklearn.feature_selection import SequentialFeatureSelector
+from sklearn.linear_model import QuantileRegressor
+from sklearn.linear_model import LinearRegression
 
 os.chdir("C:/Users/hp/OneDrive - Universidad de los Andes/Documentos/Docs/Universidad/2022-2/Big Data/Taller 2/Repo/PS2_BD-ML") #Working directory. 
 
@@ -230,16 +233,22 @@ var2=[i for i in X_train2.columns if i not in dependientes]
 y_ttest=X_ttest[dependientes]
 y_train2=X_train2[dependientes]
 
-##
+##Create independent variables
 X_ttest=X_ttest[var1]
 X_train2=X_train2[var2]
 
+##########################Regresion Models ######################################
 
+# Quantile Regression, Forward Selection
+# a=1, b=3, d=1/4
 
+qr25 = QuantileRegressor(quantile=0.25,alpha=0,solver="highs")
+sfs = SequentialFeatureSelector(qr25,n_features_to_select="auto",direction="forward",cv=10,n_jobs=(-1))
+sfs.fit(X_ttest,y_ttest["Ingtotugarr"])
 
-
-
-
+m1vars = sfs.get_feature_names_out()
+betah_m1 = sfs.get_params()
+m1vars_2 = sfs.get_support(indices=True)
 
 
 
