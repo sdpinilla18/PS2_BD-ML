@@ -238,6 +238,30 @@ X_ttest=X_ttest[var1]
 X_train2=X_train2[var2]
 
 ##########################Regresion Models ######################################
+###Standardize continue variables and winsorize dependent variable
+
+y_ttest["Ingtotugarr"]=(y_ttest["Ingtotugarr"] - y_ttest["Ingtotugarr"].mean()) / y_ttest["Ingtotugarr"].std()
+y_train2["Ingtotugarr"]=(y_train2["Ingtotugarr"] - y_train2["Ingtotugarr"].mean()) / y_train2["Ingtotugarr"].std()
+
+for x in X_train2:
+    if X_train2[x].nunique()>2:
+        X_train2[x]=(X_train2[x] - X_train2[x].mean()) / X_train2[x].std()
+
+for x in X_ttest:
+    if X_ttest[x].nunique()>2:
+        X_ttest[x]=( X_ttest[x] - X_ttest[x].mean() ) / X_ttest[x].std()
+
+for x in X_test:
+    if X_test[x].nunique()>2:
+        X_test[x]=( X_test[x] - X_test[x].mean() ) / X_test[x].std()
+
+
+
+
+##########################Regresion Models ######################################
+
+
+
 
 # Quantile Regression, Forward Selection
 # a=1, b=3, d=1/4
