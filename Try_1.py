@@ -258,23 +258,23 @@ for x in X_test:
 
 
 
+
+
+
 ##########################Regresion Models ######################################
-
-
-
 
 # Quantile Regression, Forward Selection
 # a=1, b=3, d=1/4
 
-qr25 = QuantileRegressor(quantile=0.25,alpha=0,solver="highs")
-sfs1 = SequentialFeatureSelector(qr25,n_features_to_select="auto",direction="forward",cv=100000,n_jobs=4)
-sfs1.fit(X_train2,y_train2["Ingtotugarr"])
+#qr25 = QuantileRegressor(quantile=0.25,alpha=0,solver="highs")
+#sfs1 = SequentialFeatureSelector(qr25,n_features_to_select="auto",direction="forward",cv=100000,n_jobs=4)
+#sfs1.fit(X_train2,y_train2["Ingtotugarr"])
 
-m1vars = sfs1.get_feature_names_out()
-betah_m1 = sfs1.get_params()
-m1vars_2 = sfs1.get_support(indices=False)
+#m1vars = sfs1.get_feature_names_out()
+#betah_m1 = sfs1.get_params()
+#m1vars_2 = sfs1.get_support(indices=False)
 
-M1X_test = sfs1.transform(X_ttest)
+#M1X_test = sfs1.transform(X_ttest)
 
 
 
