@@ -16,12 +16,12 @@ from psmpy import PsmPy
 from psmpy.functions import cohenD
 from psmpy.plotting import *
 from sklearn.linear_model import LogisticRegression
-import numpy as np
 from sklearn.impute import SimpleImputer
 from sklearn.impute import KNNImputer
 from sklearn.feature_selection import SequentialFeatureSelector
 from sklearn.linear_model import QuantileRegressor
 from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LassoCV
 
 os.chdir("C:/Users/hp/OneDrive - Universidad de los Andes/Documentos/Docs/Universidad/2022-2/Big Data/Taller 2/Repo/PS2_BD-ML") #Working directory. 
 
@@ -255,6 +255,10 @@ for x in X_test:
     if X_test[x].nunique()>2:
         X_test[x]=( X_test[x] - X_test[x].mean() ) / X_test[x].std()
 
+
+##Lasso Regresion
+lasso = LassoCV(cv=10000, random_state=911, n_jobs=-1, fit_intercept=False)
+resultslasso=lasso.fit(X_train2,y_train2["Ingtotugarr"])
 
 
 
