@@ -240,8 +240,11 @@ X_train2=X_train2[var2]
 ##########################Regresion Models ######################################
 ###Standardize continue variables and winsorize dependent variable
 
-y_ttest["Ingtotugarr"]=(y_ttest["Ingtotugarr"] - y_ttest["Ingtotugarr"].mean()) / y_ttest["Ingtotugarr"].std()
+sc.stats.mstats.winsorize(y_ttest["Ingtotugarr"], limits=[0,0.05], inplace=True)
+sc.stats.mstats.winsorize(y_train2["Ingtotugarr"], limits=[0,0.05], inplace=True)
+
 y_train2["Ingtotugarr"]=(y_train2["Ingtotugarr"] - y_train2["Ingtotugarr"].mean()) / y_train2["Ingtotugarr"].std()
+
 
 for x in X_train2:
     if X_train2[x].nunique()>2:
@@ -254,6 +257,45 @@ for x in X_ttest:
 for x in X_test:
     if X_test[x].nunique()>2:
         X_test[x]=( X_test[x] - X_test[x].mean() ) / X_test[x].std()
+
+
+### Save dataframes and clean memory
+
+X_test.to_csv('Xtest.csv')
+X_ttest.to_csv('Xttest.csv')
+X_train2.to_csv('Xtrain2.csv')
+y_ttest.to_csv('Yttest.csv')
+y_train2.to_csv('Ytrain2.csv')
+
+for name in dir():
+    if not name.startswith('_'):
+        del globals()[name]
+
+## Reupload dataframes
+
+import pandas as pd
+import numpy as np
+import pyreadr as pyr
+import sklearn as sk
+import matplotlib.pyplot as plt
+import scipy as sc
+import os
+from psmpy import PsmPy
+from psmpy.functions import cohenD
+from psmpy.plotting import *
+from sklearn.linear_model import LogisticRegression
+from sklearn.impute import SimpleImputer
+from sklearn.impute import KNNImputer
+from sklearn.feature_selection import SequentialFeatureSelector
+from sklearn.linear_model import QuantileRegressor
+from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LassoCV
+
+X_test=pd.read_csv('Xtest.csv') 
+X_ttest=pd.read_csv('Xttest.csv') 
+X_train2=pd.read_csv('Xtrain2.csv') 
+y_ttest=pd.read_csv('Yttest.csv') 
+y_train2=pd.read_csv('Ytrain2.csv') 
 
 
 ##Lasso Regresion
