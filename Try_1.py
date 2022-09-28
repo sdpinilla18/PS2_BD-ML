@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-"""
-Spyder Editor
+#"""
+#Spyder Editor
 
-This is a temporary script file.
-"""
+#This is a temporary script file.
+#"""
 #Packages:
 import pandas as pd
 import numpy as np
@@ -14,7 +14,7 @@ import scipy as sc
 import os
 from psmpy import PsmPy
 from psmpy.functions import cohenD
-from psmpy.plotting import *
+#from psmpy.plotting import *
 from sklearn.linear_model import LogisticRegression
 from sklearn.impute import SimpleImputer
 from sklearn.impute import KNNImputer
