@@ -10,7 +10,10 @@ En el presente repositorio se encuentran todos los documentos, bases de datos y 
 
 Este trabajo tenía como objetivo el desarrollo de dos (2) modelos; i) clasificación y ii) de predicción de ingreso para determinar el estatus de pobreza de los hogares de distintas ciudades en Colombia, a partir del uso de una base de datos del 2018 de la Gran Encuesta Integrada de Hogares (GEIH) recolectada por el Departamento Administrativo Nacional de Estadistica (DANE). Tal insumo, con la intención de mejorar el proceso de identificación de hogares por debajo del umbral de pobreza. 
 
-Para organizar y *testear* las especifaciones de los modelos, (...)
+La estrategia empírica del trabajo sigue el orden del objetivo. Se inició estimando nueve (9) modelos en el rubro de regresión que se listan como sigue; i) Ridge *Cross-Validation* con *default scoring*; ii) Ridge *Cross-Validation* con *Pinball scoring*; iii) Lasso; iv) *Elastic Net* con *Cross-Validation*; v) *Elastic Net* con *Pinball scoring*; vi) Cuantílica P25; vii) Cuantílica no regulirada ($\alpha=0$)
+
+Ridge (CV con scoring default y Pinball), Lasso, Elastic-Net (CV con scoring default y Pinball), Cuantílica P25, MCO, Cuantil sin regularizar (alpha=0), Cuantil (cross Validation). 
+QDA, LDA (Cross-Validation), LOGIT, Naive Bayes, KNN, Random Forest
 
 
 
