@@ -10,26 +10,10 @@ En el presente repositorio se encuentran todos los documentos, bases de datos y 
 
 Este trabajo tenía como objetivo el desarrollo de dos (2) modelos; i) clasificación y ii) de predicción de ingreso para determinar el estatus de pobreza de los hogares de distintas ciudades en Colombia, a partir del uso de una base de datos del 2018 de la Gran Encuesta Integrada de Hogares (GEIH) recolectada por el Departamento Administrativo Nacional de Estadistica (DANE). Tal insumo, con la intención de mejorar el proceso de identificación de hogares por debajo del umbral de pobreza. 
 
-La estrategia empírica del trabajo sigue el orden del objetivo. Se inició estimando nueve (9) modelos en el rubro de regresión que se listan como sigue: i) Ridge *Cross-Validation* con *default scoring*; ii) Ridge *Cross-Validation* con *Pinball scoring*; iii) Lasso; iv) *Elastic Net* con *Cross-Validation*; v) *Elastic Net* con *Pinball scoring*; vi) Cuantílica P25; vii) Cuantílica no regularizada; viii) Cuantílica *Cross-Validation*, y ix) Mínimos Cuadrados Ordinarios. Por su parte, en el rubro de clasificación se especificaron seis (6) técnicas: i) *Quadratic Discriminant Analysis*; ii) *Linear Discriminant Analysis*; iii) Logit; iv) *K-Nearest-Neighbors*; v) *Naive Bayes* y, vi) Random Forest.
+**1. *Data cleaning & Modelling***
 
+La estrategia empírica del trabajo sigue el orden del objetivo. Se inició estimando nueve (9) modelos en el rubro de regresión que se listan como sigue: i) Ridge *Cross-Validation* con *default scoring*; ii) Ridge *Cross-Validation* con *Pinball scoring*; iii) Lasso; iv) *Elastic Net* con *Cross-Validation*; v) *Elastic Net* con *Pinball scoring*; vi) Cuantílica P25; vii) Cuantílica no regularizada; viii) Cuantílica *Cross-Validation*, y; ix) Mínimos Cuadrados Ordinarios. Por su parte, en el rubro de clasificación se especificaron seis (6) técnicas: i) *Quadratic Discriminant Analysis*; ii) *Linear Discriminant Analysis*; iii) Logit; iv) *K-Nearest-Neighbors*; v) *Naive Bayes*, y; vi) Random Forest.
 
-
-
-
+Para poder utilizar nuestro código de **Python**, es necesario tener instalados los paquetes de `numpy`, `pyread`, `sklearn`, `pandas`, `scipy` y `matplotlib`. De los cuales se importan diversas librerías. El código completo, que incluye todo el proceso de limpieza de datos, extracción de estadísticas descriptivas y el análisis empirico para responder a las preguntas del *problem set* se encuentran en orden dentro del notebook de Jupyter titulado "PS2_BD.ipynb". El *Python script* asociado al notebook esta titulado como "T2Script.py".
 
 ***Nota:*** *Este archivo debería correr a la perfección siempre y cuando se sigan las instrucciones y comentarios del código (en orden y forma). Es altamente recomendable que antes de verificar la replicabilidad del código, se asegure de tener **todos** los requerimientos informáticos previamente mencionados (i.e. se prefieren versiones de **Python** menores a la 3.10.9 para evitar que paquetes, funciones y métodos que han sido actualizados no funcionen). Además, la velocidad de ejecución dependerá de las características propias de su máquina, por lo que deberá (o no) tener paciencia mientras se procesa.*
-
-
-
-
-
-
-Para organizar y *testear* la especificacion optima del modelo predictivo, se comenzó estimando dos (2) modelos estructurales que buscaban identificar si las variables de edad y género eran determinantes a la hora de entender el comportamiento del ingreso laboral de los ciudadanos. Posteriormente, a partir de estas especificaciones se fueron agregando regresores y controles que pretendían aumentar el poder predictivo del modelo, y la especificación final que se escogió utilizando el proceso de *Leave-One-Out-Cross-Validation (LOOCV)*.
-
-**1. *Data scraping***
-
-La totalidad de la base de datos fue obtenida mediante un proceso de *data-scraping* realizado en un entorno de desarrollo integrado para el lenguaje de programación **R**. Encontramos que, para nosotros esta era la forma más fácil y eficiente de hacerlo dado que se proveyó una explicación específica en la clase complementeria y en este programa el proceso es más sencillo y directo. Para realizar el *data-scraping* fue necesario tener disponibles la libreria `pacman` y los paquetes comop `tidyverse`, `data.table`, `plyr`, `rvest`, `XML` y `xml2`. El código utilizado se encuentra en el *R script* titulado "Datascraping.R". Al utilizar este script se exporta toda la *raw-database* de la GEIH 2018 para Bogotá D.C. con 32.177 observaciones y 178 variables al archivo "bdPS1.Rdata".
-
-**2. *Data cleaning & Modelling***
-
-Luego de realizar el *data-scraping* en **R**, migramos al lenguaje de programación **Python** para realizar la limpieza y organización de la base de datos, y la modelación y estimación de todas las especificaciones propuestas. Se tomó esta decisión dado que, por un lado, poseemos mayores conocimientos técnicos en **Python**, y, por otro lado, consideramos que es un programa con importantes ventajas absolutas en temas de versatilidad y eficiencia al momento de manejar grandes volúmenes de datos (en especial teniendo en cuenta que para este trabajo se utilizaron estimaciones de errores estándar con *bootstrap* y errores de predicción con validación cruzada). Para poder utilizar nuestro código de **Python**, es necesario tener instalados los paquetes de `pandas`, `numpy`, `pyreadr`, `sklearn`, `scipy`, `statsmodels`, `matplotlib`, `seaborn` y `bootstrap_stat`. El código completo, que incluye todo el proceso de limpieza de datos, extracción de estadísticas descriptivas y estimación de los diez (10) modelos utilizados para responder a las preguntas del *problem set* se encuentran en orden dentro del notebook de Jupyter titulado "PS1_BD.ipynb". El *Python script* asociado al notebook esta titulado como "T1Script.py".
