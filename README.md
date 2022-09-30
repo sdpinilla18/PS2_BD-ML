@@ -8,7 +8,7 @@ Integrantes: [David Santiago Caraballo Candela](https://github.com/scaraballoc),
 
 En el presente repositorio se encuentran todos los documentos, bases de datos y códigos utilizados durante el desarrollo del Taller 2 de la clase *Big Data & Machine Learning for Applied Economics*, del profesor [Ignacio Sarmiento-Barbieri](https://ignaciomsarmiento.github.io/igaciomsarmiento) durante el segundo semestre del año 2022.
 
-Este trabajo tenía como objetivo el desarrollo de dos (2) modelos; i) clasificación y ii) de predicción de ingreso para determinar el estatus de pobreza de los hogares de distintas ciudades en Colombia, a partir del uso de una base de datos del 2018 de la Gran Encuesta Integrada de Hogares (GEIH) recolectada por el Departamento Administrativo Nacional de Estadistica (DANE). Tal insumo, con la intención de mejorar el proceso de identificación de hogares por debajo del umbral de pobreza. 
+Este trabajo tenía como objetivo el desarrollo de dos (2) modelos; i) clasificación y ii) de predicción de ingreso para determinar el estatus de pobreza de los hogares de distintas ciudades en Colombia, a partir del uso de una base de datos del 2018 de la Gran Encuesta Integrada de Hogares (GEIH) recolectada por el Departamento Administrativo Nacional de Estadistica (DANE). Tal insumo, con la intención de mejorar el proceso de identificación de hogares por debajo del umbral de pobreza. Se importa toda la *raw-database* de la GEIH 2018 que contiene un total de 542.941 observaciones y 157 variables que resulta de unificar las bases de los hogares y personas.
 
 **1. *Data cleaning & Modelling***
 
